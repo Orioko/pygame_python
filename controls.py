@@ -25,15 +25,18 @@ def events(screen, gun, bullets):
             elif event.key == pygame.K_a:
                 gun.mleft = False
 
-def update(bg_color, screen, stats, sc, gun, inos, bullets):
+
+def update(background_image, screen, stats, sc, gun, inos, bullets):
     """Обновление экрана"""
-    screen.fill(bg_color)
+    screen.blit(background_image, (0, 0))
+    gun.update_gun()  # Обновление позиции пушки
+    gun.output()  # Рисование пушки
     sc.show_score()
     for bullet in bullets.sprites():
         bullet.draw_bullet()
-    gun.output()
     inos.draw(screen)
-    pygame.display.flip()
+    pygame.display.update()  # Используйте pygame.display.update() вместо pygame.display.flip()
+
 
 def update_bullets(screen, stats, sc, inos, bullets):
     """Удаление пуль"""
@@ -51,6 +54,10 @@ def update_bullets(screen, stats, sc, inos, bullets):
     if len(inos) == 0:
         bullets.empty()
         create_army(screen, inos)
+
+    screen.fill((0, 0, 0), (0, 800, 800, 100))  # Закрашиваем нижнюю полоску черным цветом
+    pygame.display.update()  # Используйте pygame.display.update() вместо pygame.display.flip()
+
 
 def gun_kill(stats, screen, sc, gun, inos, bullets):
     """Столкновение пушки с пришельцами"""
